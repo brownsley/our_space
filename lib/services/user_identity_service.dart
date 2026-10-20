@@ -9,9 +9,20 @@ class UserIdentityService {
     return prefs.getString(_senderKey);
   }
 
-  Future<int?> getReceiverId() async {
+  Future<String?> getReceiverId() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_receiverKey);
+
+    final receiver = prefs.getString(_receiverKey);
+    if (receiver != null) return receiver;
+
+    final oldReceiver = prefs.getInt(_receiverKey);
+    if (oldReceiver != null) {
+      final value = oldReceiver.toString();
+      await prefs.setString(_receiverKey, value);
+      return value;
+    }
+
+    return null;
   }
 
   Future<void> setIdentity(String user) async {
@@ -19,10 +30,10 @@ class UserIdentityService {
 
     if (user == 'me') {
       await prefs.setString(_senderKey, 'me');
-      await prefs.setInt(_receiverKey, 8110267464);
+      await prefs.setString(_receiverKey, '8110267464');
     } else if (user == 'girlfriend') {
       await prefs.setString(_senderKey, 'girlfriend');
-      await prefs.setInt(_receiverKey, 1840449883);
+      await prefs.setString(_receiverKey, '1840449883');
     } else {
       throw ArgumentError('Invalid user');
     }
