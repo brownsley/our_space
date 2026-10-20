@@ -40,13 +40,17 @@ class _IdentityPageState extends State<IdentityPage> {
         setState(() => _loading = false);
       }
     } catch (e, stackTrace) {
-      debugPrint('Save identity error: $e');
+      debugPrint('Load identity error: $e');
       debugPrintStack(stackTrace: stackTrace);
 
       if (!mounted) return;
 
-      setState(() => _saving = false);
-      _showMessage('Failed to save identity: $e');
+      setState(() {
+        _loading = false;
+        _saving = false;
+      });
+
+      _showMessage('Failed to load saved identity: $e');
     }
   }
 
