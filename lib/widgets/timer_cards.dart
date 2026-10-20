@@ -221,18 +221,11 @@ class MinimalTimerCard extends StatelessWidget {
         children: [
           Expanded(
             flex: 11,
-            child: Stack(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: _FramedPhoto(
-                    photoPath: photoPath,
-                    width: double.infinity,
-                    height: 138,
-                    radius: 15,
-                  ),
-                ),
-              ],
+            child: _FramedPhoto(
+              photoPath: photoPath,
+              width: double.infinity,
+              height: 138,
+              radius: 15,
             ),
           ),
 

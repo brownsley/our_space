@@ -192,7 +192,6 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   const HomeHeader(),
                   const SizedBox(height: 10),
-                  Text("Old Version"),
                   SizedBox(
                     height: 180,
                     child: PageView(
@@ -228,6 +227,7 @@ class _HomePageState extends State<HomePage> {
                           years: _years,
                           months: _months,
                           remainingDays: _remainingDays,
+                          // Stack ကို ဖြုတ်ပြီး တိုက်ရိုက်ထည့်ပါ
                           totalDays: _totalDays,
                           hour: _hours,
                           photoPath: 'assets/icon/image2.png',
@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                   ),
 
                   const SizedBox(height: 12),
-
+                  Text("Update Ok"),
                   const VirtualLoveActions(),
 
                   const SizedBox(height: 12),
