@@ -1,47 +1,36 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserIdentityService {
   static const String _senderKey = 'current_user';
   static const String _receiverKey = 'receiver_chat_id';
 
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
   Future<String?> getCurrentUser() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_senderKey);
+    return await _storage.read(key: _senderKey);
   }
 
   Future<String?> getReceiverId() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    final receiver = prefs.getString(_receiverKey);
+    final receiver = await _storage.read(key: _receiverKey);
     if (receiver != null) return receiver;
-
-    final oldReceiver = prefs.getInt(_receiverKey);
-    if (oldReceiver != null) {
-      final value = oldReceiver.toString();
-      await prefs.setString(_receiverKey, value);
-      return value;
-    }
 
     return null;
   }
 
   Future<void> setIdentity(String user) async {
-    final prefs = await SharedPreferences.getInstance();
-
     if (user == 'me') {
-      await prefs.setString(_senderKey, 'me');
-      await prefs.setString(_receiverKey, '8110267464');
+      await _storage.write(key: _senderKey, value: 'me');
+      await _storage.write(key: _receiverKey, value: '8110267464');
     } else if (user == 'girlfriend') {
-      await prefs.setString(_senderKey, 'girlfriend');
-      await prefs.setString(_receiverKey, '1840449883');
+      await _storage.write(key: _senderKey, value: 'girlfriend');
+      await _storage.write(key: _receiverKey, value: '1840449883');
     } else {
       throw ArgumentError('Invalid user');
     }
   }
 
   Future<void> clearIdentity() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_senderKey);
-    await prefs.remove(_receiverKey);
+    await _storage.delete(key: _senderKey);
+    await _storage.delete(key: _receiverKey);
   }
 }
